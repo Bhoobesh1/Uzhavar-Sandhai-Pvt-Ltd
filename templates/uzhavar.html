@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uzhavar Sandhai</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+/* ================= TOP HEADER ================= */
+.top-header{
+    background:#ffffff;
+    padding:15px 50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #eee;
+}
+
+/* LOGO */
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+.logo-box{
+    width:55px;
+    height:55px;
+    background:#22c55e;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:700;
+}
+.logo-text{
+    color:#22c55e;
+    font-size:22px;
+    font-weight:700;
+}
+.logo-sub{
+    font-size:12px;
+    letter-spacing:3px;
+    color:#22c55e;
+}
+
+/* CONTACT */
+.contact-info{
+    display:flex;
+    align-items:center;
+    gap:35px;
+}
+.info{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.info i{
+    font-size:26px;
+    color:#22c55e;
+}
+.info div{
+    font-size:14px;
+}
+.info span{
+    display:block;
+    font-weight:600;
+    color:#000;
+}
+
+/* ================= NAVBAR ================= */
+.navbar{
+    background:#f9f7f2;
+    padding:18px 50px;
+}
+.navbar ul{
+    list-style:none;
+    display:flex;
+    gap:45px;
+}
+.navbar a{
+    text-decoration:none;
+    font-size:17px;
+    color:#666;
+}
+.navbar a.active{
+    color:#000;
+    font-weight:600;
+}
+.navbar a:hover{
+    color:#22c55e;
+}
+
+/* ================= CHATBOT ================= */
+.chatbot-btn{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    background:#22c55e;
+    color:#fff;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:26px;
+    cursor:pointer;
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+
+.chatbot-box{
+    position:fixed;
+    bottom:100px;
+    right:25px;
+    width:340px;
+    background:#fff;
+    border-radius:12px;
+    display:none;
+    flex-direction:column;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+
+.chatbot-header{
+    background:#22c55e;
+    color:#fff;
+    padding:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:600;
+}
+
+.chatbot-messages{
+    padding:15px;
+    height:280px;
+    overflow-y:auto;
+    background:#f9fafb;
+}
+
+.bot-msg,.user-msg{
+    padding:8px 12px;
+    border-radius:10px;
+    margin-bottom:10px;
+    max-width:80%;
+    font-size:14px;
+}
+.bot-msg{background:#e5e7eb;}
+.user-msg{background:#22c55e;color:#fff;margin-left:auto;}
+
+.chatbot-input{
+    display:flex;
+    border-top:1px solid #ddd;
+}
+.chatbot-input input{
+    flex:1;
+    padding:12px;
+    border:none;
+    outline:none;
+}
+.chatbot-input button{
+    background:#22c55e;
+    color:#fff;
+    border:none;
+    padding:0 18px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<div class="top-header">
+    <div class="logo">
+        <div class="logo-box">U</div>
+        <div>
+            <div class="logo-text">UZHAVAR</div>
+            <div class="logo-sub">SANDHAI PVT LTD</div>
+        </div>
+    </div>
+
+    <div class="contact-info">
+        <div class="info">
+            <i class="fab fa-whatsapp"></i>
+        </div>
+        <div class="info">
+            <i class="fas fa-phone"></i>
+            <div>Call 9AM - 9PM<span>7904187847</span></div>
+        </div>
+        <div class="info">
+            <i class="fas fa-envelope"></i>
+            <div>Send email<span>hello@uzhavarsandhai.in</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="navbar">
+    <ul>
+        <li><a class="active">Home</a></li>
+        <li><a>About us</a></li>
+        <li><a>Plan</a></li>
+        <li><a>Contact us</a></li>
+        <li><a>Blog</a></li>
+    </ul>
+</div>
+
+<!-- ================= CHATBOT ================= -->
+<div class="chatbot-btn" onclick="toggleChat()">
+    <i class="fas fa-comment-dots"></i>
+</div>
+
+<div class="chatbot-box" id="chatbot">
+    <div class="chatbot-header">
+        <span>Uzhavar Assistant</span>
+        <i class="fas fa-times" onclick="toggleChat()"></i>
+    </div>
+
+    <div class="chatbot-messages" id="messages">
+        <div class="bot-msg">Hello 👋 Ask me anything about the document.</div>
+    </div>
+
+    <div class="chatbot-input">
+        <input id="userInput" placeholder="Type your question...">
+        <button onclick="sendMsg()">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+
+<script>
+function toggleChat(){
+    const chat = document.getElementById("chatbot");
+    chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+async function sendMsg(){
+    const input = document.getElementById("userInput");
+    const msg = input.value.trim();
+    if(!msg) return;
+
+    const messages = document.getElementById("messages");
+    messages.innerHTML += `<div class="user-msg">${msg}</div>`;
+    input.value = "";
+
+    const res = await fetch("/ask",{
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body:JSON.stringify({ question: msg })
+    });
+
+    const data = await res.json();
+    messages.innerHTML += `<div class="bot-msg">${data.answer}</div>`;
+    messages.scrollTop = messages.scrollHeight;
+}
+</script>
+
+</body>
+</html>
