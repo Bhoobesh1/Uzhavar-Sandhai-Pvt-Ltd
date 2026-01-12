@@ -3,6 +3,8 @@ import PyPDF2
 import faiss
 import numpy as np
 from openai import OpenAI
+import os
+
 
 # ---------------- APP SETUP ----------------
 app = Flask(__name__)
@@ -161,4 +163,5 @@ Question:
 # ---------------- RUN SERVER ----------------
 if __name__ == "__main__":
     load_default_pdf("data/document.pdf")
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
