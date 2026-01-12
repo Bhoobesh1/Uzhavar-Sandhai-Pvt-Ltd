@@ -97,7 +97,7 @@ def load_default_pdf(pdf_path):
 
     print("✅ Default PDF loaded successfully")
 
-# ---------------- ASK QUESTION ----------------
+# ---------------- ASK QUESTION ---------------
 @app.route("/ask", methods=["POST"])
 def ask():
     global conversation_memory
@@ -184,4 +184,4 @@ Question:
 if __name__ == "__main__":
     load_default_pdf("data/document.pdf")
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port) 
