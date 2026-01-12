@@ -5,11 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Uzhavar Sandhai</title>
 
-<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-/* RESET */
 *{
     margin:0;
     padding:0;
@@ -17,17 +15,15 @@
     font-family:"Segoe UI",sans-serif;
 }
 
-/* ================= TOP HEADER ================= */
+/* HEADER */
 .top-header{
-    background:#ffffff;
+    background:#fff;
     padding:15px 50px;
     display:flex;
     justify-content:space-between;
     align-items:center;
     border-bottom:1px solid #eee;
 }
-
-/* LOGO */
 .logo{
     display:flex;
     align-items:center;
@@ -44,42 +40,18 @@
     font-size:28px;
     font-weight:700;
 }
-.logo-text{
-    color:#22c55e;
-    font-size:22px;
-    font-weight:700;
-}
-.logo-sub{
-    font-size:12px;
-    letter-spacing:3px;
-    color:#22c55e;
-}
+.logo-text{color:#22c55e;font-size:22px;font-weight:700;}
+.logo-sub{font-size:12px;letter-spacing:3px;color:#22c55e;}
 
-/* CONTACT */
 .contact-info{
     display:flex;
-    align-items:center;
     gap:35px;
-}
-.info{
-    display:flex;
     align-items:center;
-    gap:10px;
 }
-.info i{
-    font-size:26px;
-    color:#22c55e;
-}
-.info div{
-    font-size:14px;
-}
-.info span{
-    display:block;
-    font-weight:600;
-    color:#000;
-}
+.info{display:flex;gap:10px;align-items:center;}
+.info i{font-size:22px;color:#22c55e;}
 
-/* ================= NAVBAR ================= */
+/* NAVBAR */
 .navbar{
     background:#f9f7f2;
     padding:18px 50px;
@@ -87,22 +59,15 @@
 .navbar ul{
     list-style:none;
     display:flex;
-    gap:45px;
+    gap:40px;
 }
 .navbar a{
     text-decoration:none;
-    font-size:17px;
-    color:#666;
-}
-.navbar a.active{
-    color:#000;
-    font-weight:600;
-}
-.navbar a:hover{
-    color:#22c55e;
+    font-size:16px;
+    color:#555;
 }
 
-/* ================= CHATBOT ================= */
+/* CHATBOT */
 .chatbot-btn{
     position:fixed;
     bottom:25px;
@@ -113,11 +78,10 @@
     height:60px;
     border-radius:50%;
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:center;
     font-size:26px;
     cursor:pointer;
-    box-shadow:0 10px 25px rgba(0,0,0,0.25);
 }
 
 .chatbot-box{
@@ -138,7 +102,6 @@
     padding:14px;
     display:flex;
     justify-content:space-between;
-    align-items:center;
     font-weight:600;
 }
 
@@ -158,6 +121,21 @@
 }
 .bot-msg{background:#e5e7eb;}
 .user-msg{background:#22c55e;color:#fff;margin-left:auto;}
+
+.lang-buttons{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+}
+.lang-buttons button{
+    flex:1;
+    padding:8px;
+    border:none;
+    border-radius:8px;
+    background:#22c55e;
+    color:#fff;
+    cursor:pointer;
+}
 
 .chatbot-input{
     display:flex;
@@ -181,7 +159,6 @@
 
 <body>
 
-<!-- ================= HEADER ================= -->
 <div class="top-header">
     <div class="logo">
         <div class="logo-box">U</div>
@@ -190,33 +167,18 @@
             <div class="logo-sub">SANDHAI PVT LTD</div>
         </div>
     </div>
-
-    <div class="contact-info">
-        <div class="info">
-            <i class="fab fa-whatsapp"></i>
-        </div>
-        <div class="info">
-            <i class="fas fa-phone"></i>
-            <div>Call 9AM - 9PM<span>7904187847</span></div>
-        </div>
-        <div class="info">
-            <i class="fas fa-envelope"></i>
-            <div>Send email<span>hello@uzhavarsandhai.in</span></div>
-        </div>
-    </div>
 </div>
 
 <div class="navbar">
     <ul>
-        <li><a class="active">Home</a></li>
-        <li><a>About us</a></li>
+        <li><a>Home</a></li>
+        <li><a>About</a></li>
         <li><a>Plan</a></li>
-        <li><a>Contact us</a></li>
-        <li><a>Blog</a></li>
+        <li><a>Contact</a></li>
     </ul>
 </div>
 
-<!-- ================= CHATBOT ================= -->
+<!-- CHATBOT -->
 <div class="chatbot-btn" onclick="toggleChat()">
     <i class="fas fa-comment-dots"></i>
 </div>
@@ -228,21 +190,48 @@
     </div>
 
     <div class="chatbot-messages" id="messages">
-        <div class="bot-msg">Hello 👋 Ask me anything about the document.</div>
+        <div class="bot-msg">Please select your preferred language 👇</div>
+        <div class="lang-buttons">
+            <button onclick="setLanguage('tamil')">தமிழ்</button>
+            <button onclick="setLanguage('english')">English</button>
+        </div>
     </div>
 
     <div class="chatbot-input">
-        <input id="userInput" placeholder="Type your question...">
-        <button onclick="sendMsg()">
+        <input id="userInput" placeholder="Type your question..." disabled>
+        <button onclick="sendMsg()" disabled>
             <i class="fas fa-paper-plane"></i>
         </button>
     </div>
 </div>
 
 <script>
+let selectedLanguage = null;
+
 function toggleChat(){
     const chat = document.getElementById("chatbot");
     chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+function setLanguage(lang){
+    selectedLanguage = lang;
+
+    document.querySelector(".lang-buttons").remove();
+
+    const messages = document.getElementById("messages");
+
+    if(lang === "tamil"){
+        messages.innerHTML += `<div class="bot-msg">
+        அருமை 👍 நீங்கள் தமிழ் தேர்வு செய்துள்ளீர்கள். உங்கள் கேள்வியை கேளுங்கள்.
+        </div>`;
+    }else{
+        messages.innerHTML += `<div class="bot-msg">
+        Great 👍 You selected English. Please ask your question.
+        </div>`;
+    }
+
+    document.getElementById("userInput").disabled = false;
+    document.querySelector(".chatbot-input button").disabled = false;
 }
 
 async function sendMsg(){
@@ -257,7 +246,7 @@ async function sendMsg(){
     const res = await fetch("/ask",{
         method:"POST",
         headers:{ "Content-Type":"application/json" },
-        body:JSON.stringify({ question: msg })
+        body:JSON.stringify({ question: msg, language: selectedLanguage })
     });
 
     const data = await res.json();
