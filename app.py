@@ -5,7 +5,6 @@ import numpy as np
 from openai import OpenAI
 import os
 
-
 # ---------------- APP SETUP ----------------
 app = Flask(__name__)
 client = OpenAI()
@@ -18,7 +17,7 @@ conversation_memory = []
 MAX_MEMORY = 6
 
 # ---------------- SMALL TALK ----------------
-def handle_small_talk(user_input):
+def handle_small_talk(user_input, language):
     text = user_input.lower().strip()
 
     greetings = ["hi", "hello", "hey", "good morning", "good afternoon", "good evening"]
@@ -26,11 +25,17 @@ def handle_small_talk(user_input):
 
     for g in greetings:
         if text == g or text.startswith(g):
-            return "Welcome to Uzhavar Sandhai Pvt Ltd 🌾 How can I help you?"
+            if language == "tamil":
+                return "உழவர் சந்தை பைவேட் லிமிடெட் 🌾 வரவேற்கிறோம். நான் உங்களுக்கு எப்படி உதவலாம்?"
+            else:
+                return "Welcome to Uzhavar Sandhai Pvt Ltd 🌾 How can I help you?"
 
     for c in closing:
         if c in text:
-            return "You're welcome 😊 Feel free to ask anytime."
+            if language == "tamil":
+                return "நன்றி 😊 எப்போது வேண்டுமானாலும் கேளுங்கள்."
+            else:
+                return "You're welcome 😊 Feel free to ask anytime."
 
     return None
 
@@ -97,13 +102,15 @@ def load_default_pdf(pdf_path):
 def ask():
     global conversation_memory
 
-    question = request.json.get("question", "")
+    data = request.json
+    question = data.get("question", "")
+    language = data.get("language", "english")  # default
 
     if not question:
         return jsonify({"answer": "Please ask a question."})
 
-    # Small talk
-    small_talk_response = handle_small_talk(question)
+    # Small talk handling
+    small_talk_response = handle_small_talk(question, language)
     if small_talk_response:
         return jsonify({"answer": small_talk_response})
 
@@ -127,8 +134,20 @@ def ask():
     for m in conversation_memory:
         memory_text += f"User: {m['question']}\nAssistant: {m['answer']}\n\n"
 
+    # -------- LANGUAGE CONTROL --------
+    if language == "tamil":
+        language_instruction = """
+Answer ONLY in Tamil.
+If user types in Tanglish, respond in proper Tamil.
+Use simple and polite Tamil.
+"""
+    else:
+        language_instruction = "Answer only in English."
+
     prompt = f"""
-You are a helpful assistant.
+You are a helpful assistant for Uzhavar Sandhai Pvt Ltd.
+
+{language_instruction}
 
 Previous conversation:
 {memory_text}
@@ -144,7 +163,8 @@ Question:
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}]
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.3
     )
 
     answer = response.choices[0].message.content.strip()
